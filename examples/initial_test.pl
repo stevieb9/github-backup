@@ -8,8 +8,12 @@ use File::Path qw(rmtree);
 use LWP::UserAgent;
 use Pithub;
 
+if (! $ENV{TOKEN}){
+    die "\$ENV{TOKEN} must be set with your Github API token.\n";
+}
+
 my $user = 'stevieb9';
-my $token = '1a38dbdec14c79a3a2d9aa275f30a9a041b0385d';
+my $token = $ENV{TOKEN};
 my $bak = 'backups';
 my $stg = 'backups.stg';
 

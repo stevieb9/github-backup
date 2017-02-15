@@ -1,5 +1,7 @@
 Revision history for Github-Backup
 
 0.01    Date/time
-        First version, released on an unsuspecting world.
+        - First version, released on an unsuspecting world.
+        - added Travis-CI and Coveralls.io integration
+
 

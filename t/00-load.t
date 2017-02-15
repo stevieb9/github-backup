@@ -4,10 +4,8 @@ use strict;
 use warnings;
 use Test::More;
 
-plan tests => 1;
-
 BEGIN {
     use_ok( 'Github::Backup' ) || print "Bail out!\n";
 }
 
-diag( "Testing Github::Backup $Github::Backup::VERSION, Perl $], $^X" );
+done_testing();

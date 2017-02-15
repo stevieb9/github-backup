@@ -11,6 +11,19 @@ WriteMakefile(
     LICENSE          => 'perl_5',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources   => {
+            bugtracker => {
+                web => 'https://github.com/stevieb9/github-backup/issues',
+            },
+            repository => {
+                type => 'git',
+                url => 'https://github.com/stevieb9/github-backup.git',
+                web => 'https://github.com/stevieb9/github-backup',
+            },
+        },
+    },
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
     },
@@ -18,8 +31,10 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM => {
-        #'ABC'              => 1.6,
-        #'Foo::Bar::Module' => 5.0401,
+        'Git::Repository' => 1.320,
+        'LWP::UserAgent'  => 6.19,
+        'Moo'             => 2.003000,
+        'Pithub'          => 0.01033,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Github-Backup-*' },

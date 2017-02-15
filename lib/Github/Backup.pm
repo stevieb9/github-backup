@@ -1,99 +1,141 @@
 package Github::Backup;
 
-use 5.006;
 use strict;
 use warnings;
 
-=head1 NAME
+use Git::Repository;
+use File::Copy;
+use File::Path;
+use LWP::UserAgent;
+use Moo;
+use Pithub;
 
-Github::Backup - The great new Github::Backup!
-
-=head1 VERSION
-
-Version 0.01
-
-=cut
+use namespace::clean;
 
 our $VERSION = '0.01';
 
+# external
+
+has api_user => (
+    is => 'rw',
+);
+has dir => (
+    is => 'rw',
+);
+has forks => (
+    is => 'rw',
+);
+has token => (
+    is => 'rw',
+);
+has proxy => (
+    is => 'rw',
+);
+has user => (
+    is => 'rw',
+);
+
+# internal
+
+has gh => (
+    # Pithub object
+    is => 'rw',
+);
+has stg => (
+    is => 'rw',
+);
+
+sub BUILD {
+    my ($self) = @_;
+
+    my $ua = LWP::UserAgent->new;
+
+    if ($self->proxy){
+        $ENV{http_proxy} = $self->proxy;
+        $ENV{https_proxy} = $self->proxy;
+
+        $ua->env_proxy;
+    }
+
+    my $gh = Pithub->new(
+        ua => $ua,
+        user => $self->api_user,
+        token => $self->token
+    );
+
+    $self->stg($self->dir . '.stg');
+    $self->gh($gh);
+
+    $self->user($self->api_user) if ! defined $self->user;
+
+    if (-d $self->stg){
+        rmtree $self->stg or die "can't remove the old staging directory...";
+    }
+
+    mkdir $self->stg or die "can't create the backup staging directory...\n";
+
+}
+sub repos {
+    my ($self) = @_;
+
+    my $repo_list = $self->gh()->repos->list(user => $self->user);
+
+    my @repos;
+
+    while (my $repo = $repo_list->next){
+        push @repos, $repo->{name};
+    }
+
+    for my $repo (@repos){
+        my $content = $gh->repos()->get(user $self->user, repo => $repo);
+
+        my $stg = $self->stg . "/$content->{name}";
+
+        if (! $self->forks){
+            if (! exists $content->{parent}){
+                Git::Repository->run(
+                    clone => $content->{clone_url} => $stg,
+                    { quiet => 1}
+                );
+            }
+        }
+        else {
+             Git::Repository->run(
+                clone => $content->{clone_url} => $stg,
+                { quiet => 1}
+            );
+        }
+    }
+}
+sub DESTROY {
+    my $self = shift;
+
+    if (-d $self->dir){
+        rmtree $self->dir or die "can't remove the old backup directory...";
+    }
+
+    move $self->stg, $self->dir or die "can't rename the staging directory...";
+}
+
+1;
+__END__
+
+=head1 NAME
+
+Github::Backup - Back up your repositories, issues, gists and more
+
+=head1 DESCRIPTION
+
+This distribution provides the ability to backup your Github information easily
+and quickly.
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Github::Backup;
-
-    my $foo = Github::Backup->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
+=head1 METHODS
 
 =head1 AUTHOR
 
 Steve Bertrand, C<< <steveb at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-github-backup at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Github-Backup>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Github::Backup
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Github-Backup>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Github-Backup>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Github-Backup>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Github-Backup/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -105,7 +147,3 @@ by the Free Software Foundation; or the Artistic License.
 
 See L<http://dev.perl.org/licenses/> for more information.
 
-
-=cut
-
-1; # End of Github::Backup
