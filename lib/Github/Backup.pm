@@ -177,13 +177,13 @@ __END__
 
 =head1 NAME
 
-Github::Backup - Back up your repositories, issues, gists and more
+Github::Backup - Back up your Github repositories and/or issues locally
 
 =head1 SYNOPSIS
 
     github_backup \
         --user stevieb9 \
-        --token 003e12e0780025889f8da286d89d144323c20c1ff7
+        --token 003e12e0780025889f8da286d89d144323c20c1ff7 \
         --dir /home/steve/github_backup \
         --repos \
         --issues
@@ -197,7 +197,10 @@ Github::Backup - Back up your repositories, issues, gists and more
 
 =head1 DESCRIPTION
 
-Back up all of your Github repositories and/or issues to your local machine.
+The cloud is a wonderful thing, but things do happen. Use this distribution to
+back up all of your Github repositories and/or issues to your local machine for
+both assurance of data accessibility due to outage, data loss, or just simply
+off-line use.
 
 =head1 COMMAND LINE USAGE
 
@@ -289,6 +292,11 @@ in the specified backup directory.
 
 Takes no parameters. Backs up all of your Github issues. Stores them per-repo
 within the C</backup_dir/issues> directory.
+
+=head1 FUTURE DIRECTION
+
+Slowly, I will add new functionality such as backing up *all* Github data, as
+well as provide the ability to restore to Github the various items.
 
 =head1 AUTHOR
 
