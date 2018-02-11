@@ -6,6 +6,8 @@ Revision history for Github-Backup
         - added github_backup binary
         - added prereq JSON
         - cleaned up POD tests; we skip accessor sub docs
+        - we create repo directories under issues dir only if the repo has any
+          issues
 
 0.01    Date/time
         - First version, released on an unsuspecting world.

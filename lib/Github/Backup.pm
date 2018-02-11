@@ -136,9 +136,14 @@ sub issues {
 
         my $issue_dir = $self->stg . "/issues/$repo->{name}";
 
-        mkdir $issue_dir or die $!;
+
+        my $dir_created = 0;
 
         while (my $issue = $issue_list->next){
+            if (! $dir_created) {
+                mkdir $issue_dir or die $!;
+                $dir_created = 1;
+            }
             open my $fh, '>', "$issue_dir/$issue->{id}"
                 or die "can't create the issue file";
 

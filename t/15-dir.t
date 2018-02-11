@@ -9,7 +9,7 @@ my $mod = 'Github::Backup';
 
 my $o = $mod->new(
     api_user => 'stevieb9',
-    token => $ENV{GITHUB_TOKEN},
+    token => 'xxx',
     dir => 't/backup',
     _clean => 1
 );
