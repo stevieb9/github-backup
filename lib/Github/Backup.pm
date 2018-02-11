@@ -295,8 +295,11 @@ within the C</backup_dir/issues> directory.
 
 =head1 FUTURE DIRECTION
 
-Slowly, I will add new functionality such as backing up *all* Github data, as
+- Slowly, I will add new functionality such as backing up *all* Github data, as
 well as provide the ability to restore to Github the various items.
+
+- Add more tests. Usually I don't release a distribution with such few tests,
+but in this case I have. I digress.
 
 =head1 AUTHOR
 
