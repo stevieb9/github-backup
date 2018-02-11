@@ -18,6 +18,10 @@ GetOptions(
     "h|help"    => \$help
 );
 
+if ($help){
+    help();
+}
+
 if (! $opts{user} || ! $opts{dir}){
     warn "You must supply both a user and a backup directory.\n";
     help();

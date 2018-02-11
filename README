@@ -120,9 +120,12 @@ MODULE METHODS
 
 FUTURE DIRECTION
 
-    Slowly, I will add new functionality such as backing up *all* Github
+    - Slowly, I will add new functionality such as backing up *all* Github
     data, as well as provide the ability to restore to Github the various
     items.
+
+    - Add more tests. Usually I don't release a distribution with such few
+    tests, but in this case I have. I digress.
 
 AUTHOR
 
