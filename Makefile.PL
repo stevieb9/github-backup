@@ -33,6 +33,7 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'Git::Repository' => 1.320,
+        'JSON'            => 0,
         'LWP::UserAgent'  => 6.19,
         'Moo'             => 2.003000,
         'Pithub'          => 0.01033,

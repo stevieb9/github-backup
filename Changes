@@ -1,12 +1,10 @@
 Revision history for Github-Backup
 
-1.01 UNREL
-        -
-
-1.00    2018-02-11
+1.01    2018-02-11
         - added repos() and issues()
         - added tests
         - added github_backup binary
+        - added prereq JSON
 
 0.01    Date/time
         - First version, released on an unsuspecting world.
