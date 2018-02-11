@@ -159,7 +159,7 @@ sub DESTROY {
                 $self->dir or die "can't rename the staging directory...";
         }
 
-        if ($self->_clean) {
+        if (-d $self->dir && $self->_clean) {
             # we're in testing mode, clean everything up
             rmtree $self->dir
                 or die "can't remove the test backup directory...$!";
