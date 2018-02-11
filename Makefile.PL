@@ -10,6 +10,7 @@ WriteMakefile(
     ABSTRACT_FROM    => 'lib/Github/Backup.pm',
     LICENSE          => 'perl_5',
     PL_FILES         => {},
+    EXE_FILES        => ['bin/github_backup'],
     MIN_PERL_VERSION => 5.006,
     META_MERGE => {
         'meta-spec' => { version => 2 },

@@ -21,12 +21,12 @@ if (! $ENV{GITHUB_TOKEN}){
         api_user => 'stevieb9',
         token    => $ENV{GITHUB_TOKEN},
         dir      => 't/backup',
+        _clean   => 1
     );
 
-    $o->repos;
+    $o->issues;
 
-    is -e $o->dir, 1, "backup dir exists";
-    is -d $o->dir, 1, "backup dir is a dir";
+    is -d 't/backup/issues/test-brewbuild', 1, "isues have been saved";
 }
 
 done_testing();

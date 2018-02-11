@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 
+use File::Path;
 use Github::Backup;
 use Test::More;
 
@@ -10,7 +11,10 @@ my $o = $mod->new(
     api_user => 'stevieb9',
     token => $ENV{GITHUB_TOKEN},
     dir => 't/backup',
-    proxy => 'http://10.0.0.4:80'
+    _clean => 1
 );
+
+is $o->stg, 't/backup.stg', "staging directory housed ok";
+is -d $o->stg . '/berrybrew', 1, "repos exist in the staging dir";
 
 done_testing();
