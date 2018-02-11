@@ -1,4 +1,3 @@
-#!perl -T
 use 5.006;
 use strict;
 use warnings;
@@ -21,4 +20,17 @@ eval "use Pod::Coverage $min_pc";
 plan skip_all => "Pod::Coverage $min_pc required for testing POD coverage"
     if $@;
 
-all_pod_coverage_ok();
+pod_coverage_ok(
+    'Github::Backup',
+    { also_private => [
+            'user',
+            'BUILD',
+            'forks',
+            'gh',
+            'stg',
+        ]
+    },
+    "POD coverage ok"
+);
+
+done_testing;

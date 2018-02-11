@@ -15,6 +15,6 @@ my $o = $mod->new(
 );
 
 is $o->stg, 't/backup.stg', "staging directory housed ok";
-is -d $o->stg . '/berrybrew', 1, "repos exist in the staging dir";
+#is -d $o->stg . '/berrybrew', 1, "repos exist in the staging dir";
 
 done_testing();
