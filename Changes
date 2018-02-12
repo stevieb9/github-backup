@@ -5,6 +5,7 @@ Revision history for Github-Backup
         - added new "FUTURE DIRECTION" POD heading
         - -h flag is taken as priority in github_backup, and no longer prints
           erroneous warnings for missing args
+        - we now properly respect GITHUB_TOKEN env var
 
 1.01    2018-02-11
         - added repos() and issues()

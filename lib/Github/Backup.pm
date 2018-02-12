@@ -56,6 +56,10 @@ has stg => (
 sub BUILD {
     my ($self) = @_;
 
+    if (! $self->token){
+        $self->token($ENV{GITHUB_TOKEN}) if $ENV{GITHUB_TOKEN};
+    }
+
     for ($self->api_user, $self->token, $self->dir){
         if (! $_){
             croak "When instantiating an object, the 'api_user', 'token' and " .
@@ -156,12 +160,12 @@ sub DESTROY {
 
     if ($self->dir) {
         if (-d $self->dir) {
-            rmtree $self->dir or die "can't remove the old backup directory...";
+            rmtree $self->dir or die "can't remove the old backup directory: $!";
         }
 
         if ($self->stg) {
             move $self->stg,
-                $self->dir or die "can't rename the staging directory...";
+                $self->dir or die "can't rename the staging directory: $!";
         }
 
         if (-d $self->dir && $self->_clean) {
