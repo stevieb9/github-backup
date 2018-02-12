@@ -158,21 +158,19 @@ sub issues {
 sub DESTROY {
     my $self = shift;
 
-    if ($self->dir) {
-        if (-d $self->dir) {
-            rmtree $self->dir or die "can't remove the old backup directory: $!";
-        }
+    if ($self->dir && -d $self->dir) {
+        rmtree $self->dir or die "can't remove the old backup directory: $!";
+    }
 
-        if ($self->stg) {
-            move $self->stg,
-                $self->dir or die "can't rename the staging directory: $!";
-        }
+    if ($self->stg && -d $self->stg) {
+        move $self->stg,
+            $self->dir or die "can't rename the staging directory: $!";
+    }
 
-        if (-d $self->dir && $self->_clean) {
-            # we're in testing mode, clean everything up
-            rmtree $self->dir
-                or die "can't remove the test backup directory...$!";
-        }
+    if ($self->dir && -d $self->dir && $self->_clean) {
+        # we're in testing mode, clean everything up
+        rmtree $self->dir
+            or die "can't remove the test backup directory...$!";
     }
 }
 
