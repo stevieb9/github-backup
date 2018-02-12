@@ -60,10 +60,9 @@ sub BUILD {
         $self->token($ENV{GITHUB_TOKEN}) if $ENV{GITHUB_TOKEN};
     }
 
-    for ($self->api_user, $self->token, $self->dir){
-        if (! $_){
-            croak "When instantiating an object, the 'api_user', 'token' and " .
-                  "'dir' parameters are mandatory...\n";
+    for my $key (qw/api_user token dir/){
+        if (! $self->{$key}){
+            croak "ERROR: Missing mandatory parameter [$key].\n";
         }
     }
 
@@ -316,4 +315,3 @@ under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
 See L<http://dev.perl.org/licenses/> for more information.
-
