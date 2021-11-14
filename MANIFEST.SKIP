@@ -35,4 +35,4 @@ build/
 .bblog$
 .base$
 main$
-^\.github/
+.github/
