@@ -12,6 +12,7 @@ Revision history for Github-Backup
     - Added finish(), so we can set up the backup directory before object
       destruction
     - Added POD for _cleanup
+    - Ran Dist::Mgr install for new CI information
 
 1.02    2018-02-12
     - fix missing newline backslash in SYNOPSIS

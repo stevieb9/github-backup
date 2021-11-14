@@ -1,8 +1,3 @@
-a.out
-_Inline/
-*.bs
-*.c
-*.o
 Makefile
 *~
 *.bak
@@ -24,3 +19,6 @@ pm_to_blib
 .idea/
 *.debug
 *.iml
+*.bblog
+BB-Pass/
+BB-Fail/

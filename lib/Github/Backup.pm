@@ -226,6 +226,11 @@ __END__
 
 Github::Backup - Back up your Github repositories and/or issues locally
 
+=for html
+<a href="https://github.com/stevieb9/github-backup/actions"><img src="https://github.com/stevieb9/github-backup/workflows/CI/badge.svg"/></a>
+<a href='https://coveralls.io/github/stevieb9/github-backup?branch=master'><img src='https://coveralls.io/repos/stevieb9/github-backup/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+
+
 =head1 SYNOPSIS
 
     github_backup \
