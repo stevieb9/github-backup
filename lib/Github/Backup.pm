@@ -78,7 +78,8 @@ sub BUILD {
     my $gh = Pithub->new(
         ua => $ua,
         user => $self->api_user,
-        token => $self->token
+        token => $self->token,
+        auto_pagination => 1,
     );
 
     $self->stg($self->dir . '.stg');
@@ -93,33 +94,41 @@ sub BUILD {
     mkdir $self->stg or die "can't create the backup staging directory...$!\n";
 
 }
+
+sub list {
+    my ($self) = @_;
+
+    if (! $self->{repo_list}) {
+        my $repo_list = $self->gh->repos->list(user => $self->user);
+        while (my $repo = $repo_list->next) {
+            push @{ $self->{repo_list} }, $repo;
+        }
+    }
+
+    return $self->{repo_list};
+}
 sub repos {
     my ($self) = @_;
 
-    my $repo_list = $self->gh->repos->list(user => $self->user);
+    my $repo_list = $self->list;
 
     my @repos;
 
-    while (my $repo = $repo_list->next){
-        push @repos, $repo;
-    }
-
     for my $repo (@repos){
-
         my $stg = $self->stg . "/$repo->{name}";
 
         if (! $self->forks){
             if (! exists $repo->{parent}){
                 Git::Repository->run(
                     clone => $repo->{clone_url} => $stg,
-                    {quiet => 1}
+                    { quiet => 0 }
                 );
             }
         }
         else {
              Git::Repository->run(
                 clone => $repo->{clone_url} => $stg,
-                { quiet => 1 }
+                { quiet => 0 }
             );
         }
     }
@@ -215,10 +224,16 @@ Mandatory: Your Github API token. If you wish to not include this on the
 command line, you can put the token into the C<GITHUB_TOKEN> environment
 variable.
 
+=head2 -l | --list
+
+Optional: Simply prints a list of all available repositories for the specified
+user.
+
 =head2 -d | --dir
 
-Mandatory: The backup directory where your repositories and/or issues will be
-stored. The format of the directory structure will be as follows:
+Mandatory (if using C<--repos> or C<--issues>): The backup directory where your
+repositories and/or issues will be stored. The format of the directory
+structure will be as follows:
 
     backup_dir/
         - issues/
@@ -283,6 +298,13 @@ information to.
 
 Optional, String: Send in a proxy in the format
 C<https://proxy.example.com:PORT> and we'll use this to do our fetching.
+
+=head2 list
+
+Takes no parameters. Returns a list of all repository objects as returned from
+L<Pithub> / the Github API.
+
+Common fields are C<$repo->{name}>, C<$repo->{clone_url}> etc.
 
 =head2 repos
 

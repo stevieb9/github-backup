@@ -13,6 +13,7 @@ GetOptions(
     "t|token=s" => \$opts{token},
     "d|dir=s"   => \$opts{dir},
     "p|proxy=s" => \$opts{proxy},
+    "l|list"    => \$opts{list},
     "r|repos"   => \$opts{repos},
     "i|issues"  => \$opts{issues},
     "h|help"    => \$help
@@ -27,19 +28,21 @@ if (! $opts{user} || ! $opts{dir}){
     help();
 }
 
-if (! $opts{token}){
-    if ($ENV{GITHUB_TOKEN}){
-        $opts{token} = $ENV{GITHUB_TOKEN};
-    }
-    else {
-        warn "This application requires a Github token either as an argument, " .
-            "or in the GITHUB_TOKEN environment variable.\n";
-        help();
+if (! $opts{list}) {
+    if (! $opts{token}){
+        if ($ENV{GITHUB_TOKEN}){
+            $opts{token} = $ENV{GITHUB_TOKEN};
+        }
+        else {
+            warn "This application requires a Github token either as an argument, " .
+                "or in the GITHUB_TOKEN environment variable.\n";
+            help();
+        }
     }
 }
 
-if (! $opts{repos} && ! $opts{issues}){
-    warn "You must supply at least one of -r|--repos or -i|--issues\n";
+if (! $opts{repos} && ! $opts{issues} && ! $opts{list}){
+    warn "You must supply at least one of -r|--repos, -i|--issues or -l|--list\n";
     help();
 }
 
@@ -68,10 +71,15 @@ my $gh = Github::Backup->new(
     proxy   => $opts{proxy}
 );
 
-if ($opts{repos}){
+if ($opts{list}) {
+    my $repos = $gh->list;
+    for (@$repos) {
+        print "$_->{name}\n";
+    }
+}
+if ($opts{repos}) {
     $gh->repos;
 }
-
-if ($opts{issues}){
+if ($opts{issues}) {
     $gh->issues;
 }
