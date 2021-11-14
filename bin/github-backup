@@ -16,7 +16,8 @@ GetOptions(
     "l|list"    => \$opts{list},
     "r|repos"   => \$opts{repos},
     "i|issues"  => \$opts{issues},
-    "h|help"    => \$help
+    "v|verbose" => \$opts{verbose},
+    "h|help"    => \$help,
 );
 
 if ($help){

@@ -6,7 +6,7 @@ Revision history for Github-Backup
     - Added list(), returns a full list of repository objects
     - Added --list, prints to STDOUT the full list of available repository
       objects for the given user
-    - Added github-backup binary (along with github_backup)
+    - Changed github_backup to github-backup
 
 1.02    2018-02-12
     - fix missing newline backslash in SYNOPSIS

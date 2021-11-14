@@ -1,4 +1,4 @@
-bin/github_backup
+bin/github-backup
 Changes
 examples/initial_test.pl
 lib/Github/Backup.pm

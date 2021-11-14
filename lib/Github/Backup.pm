@@ -110,12 +110,12 @@ sub list {
 sub repos {
     my ($self) = @_;
 
-    my $repo_list = $self->list;
+    my $repos = $self->list;
 
-    my @repos;
-
-    for my $repo (@repos){
+    for my $repo (@$repos){
         my $stg = $self->stg . "/$repo->{name}";
+
+        print "Cloning $repo->{name}\n";
 
         if (! $self->forks){
             if (! exists $repo->{parent}){
@@ -138,16 +138,15 @@ sub issues {
 
     mkdir $self->stg . "/issues" or die "can't create the 'issues' dir: $!";
 
-    my $repo_list = $self->gh->repos->list(user => $self->user);
+    my $repos = $self->list;
 
-    while (my $repo = $repo_list->next){
+    for my $repo (@$repos) {
         my $issue_list = $self->gh->issues->list(
             user => $self->user,
             repo => $repo->{name}
         );
 
         my $issue_dir = $self->stg . "/issues/$repo->{name}";
-
 
         my $dir_created = 0;
 
@@ -158,6 +157,8 @@ sub issues {
             }
             open my $fh, '>', "$issue_dir/$issue->{id}"
                 or die "can't create the issue file";
+
+            print "Copied $repo->{name} issue #$issue->{number}\n";
 
             print $fh encode_json $issue;
         }
