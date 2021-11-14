@@ -6,6 +6,7 @@ use warnings;
 use Carp qw(croak);
 use Data::Dumper;
 use Git::Repository;
+use Hook::Output::Tiny;
 use File::Copy;
 use File::Path;
 use JSON;
@@ -113,9 +114,11 @@ sub repos {
     my $repos = $self->list;
 
     for my $repo (@$repos){
-        my $stg = $self->stg . "/$repo->{name}";
+        $self->_trap->hook('stderr');
 
         print "Cloning $repo->{name}\n";
+
+        my $stg = $self->stg . "/$repo->{name}";
 
         if (! $self->forks){
             if (! exists $repo->{parent}){
@@ -131,6 +134,7 @@ sub repos {
                 { quiet => 0 }
             );
         }
+        $self->_trap->unhook('stderr');
     }
 }
 sub issues {
@@ -163,6 +167,14 @@ sub issues {
             print $fh encode_json $issue;
         }
     }
+}
+sub _trap {
+    my ($self) = @_;
+    if (! $self->{trap}) {
+        $self->{trap} = Hook::Output::Tiny->new;
+    }
+
+    return $self->{trap};
 }
 sub DESTROY {
     my $self = shift;

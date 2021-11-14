@@ -7,6 +7,8 @@ Revision history for Github-Backup
     - Added --list, prints to STDOUT the full list of available repository
       objects for the given user
     - Changed github_backup to github-backup
+    - We now output information on what repo/issue we're working on
+    - Added Hook::Output::Tiny to hide STDERR messages when cloning
 
 1.02    2018-02-12
     - fix missing newline backslash in SYNOPSIS
