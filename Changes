@@ -9,6 +9,9 @@ Revision history for Github-Backup
     - Changed github_backup to github-backup
     - We now output information on what repo/issue we're working on
     - Added Hook::Output::Tiny to hide STDERR messages when cloning
+    - Added finish(), so we can set up the backup directory before object
+      destruction
+    - Added POD for _cleanup
 
 1.02    2018-02-12
     - fix missing newline backslash in SYNOPSIS

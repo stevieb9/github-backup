@@ -21,21 +21,20 @@ if (! $ENV{GITHUB_TOKEN}){
         api_user => 'stevieb9',
         #        token    => $ENV{GITHUB_TOKEN},
         dir      => 't/backup',
+        _clean   => 1,
     );
 
     my $repos = $o->list;
 
     is scalar @$repos > 100, 1, "Number of repos ok";
 
-
     my @names;
+
     for my $repo (@$repos) {
         my $name = $repo->{name};
         push @names, $name;
     }
 
-    use Data::Dumper;
-    print Dumper \@names;
     my $result = grep /^github-backup/, @names;
     is $result, 1, "github-backup in the list of repos ok";
 }

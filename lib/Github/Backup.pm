@@ -42,6 +42,9 @@ has proxy => (
 has user => (
     is => 'rw',
 );
+has limit => (
+    is => 'rw',
+);
 
 # internal
 
@@ -93,7 +96,6 @@ sub BUILD {
     }
 
     mkdir $self->stg or die "can't create the backup staging directory...$!\n";
-
 }
 
 sub list {
@@ -113,7 +115,14 @@ sub repos {
 
     my $repos = $self->list;
 
+    my $repo_count = 0;
     for my $repo (@$repos){
+        $repo_count++;
+
+        if ($self->limit) {
+            last if $repo_count >= $self->limit;
+        }
+
         $self->_trap->hook('stderr');
 
         print "Cloning $repo->{name}\n";
@@ -144,7 +153,15 @@ sub issues {
 
     my $repos = $self->list;
 
+    my $repo_count = 0;
+
     for my $repo (@$repos) {
+        $repo_count++;
+
+        if ($self->limit) {
+            last if $repo_count >= $self->limit;
+        }
+
         my $issue_list = $self->gh->issues->list(
             user => $self->user,
             repo => $repo->{name}
@@ -166,6 +183,13 @@ sub issues {
 
             print $fh encode_json $issue;
         }
+    }
+}
+sub finish {
+    my ($self) = @_;
+    if ($self->stg && -d $self->stg) {
+        move $self->stg,
+            $self->dir or die "can't rename the staging directory: $!";
     }
 }
 sub _trap {
@@ -312,6 +336,18 @@ information to.
 Optional, String: Send in a proxy in the format
 C<https://proxy.example.com:PORT> and we'll use this to do our fetching.
 
+=head3 _clean
+
+Optional, Bool. Used only for testing. Tells C<< DESTROY >> to remove the
+backup directory.
+
+=head2 limit
+
+Optional, Integer: Sets the number of repositories we'll operate on. Used
+primarily for testing.
+
+Default: Unlimited.
+
 =head2 list
 
 Takes no parameters. Returns a list of all repository objects as returned from
@@ -328,6 +364,12 @@ in the specified backup directory.
 
 Takes no parameters. Backs up all of your Github issues. Stores them per-repo
 within the C</backup_dir/issues> directory.
+
+=head2 finish
+
+Takes no parameters. Normally, we copy the staging backup directory to the
+actual backup directory at the time we destroy the object. Call this method to
+set up the backup directory immediately.
 
 =head1 FUTURE DIRECTION
 
