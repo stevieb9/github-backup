@@ -32,6 +32,8 @@ if (! $ENV{GITHUB_TOKEN}){
     $o->finish;
 
     is -d 't/backup/issues/berrybrew', 1, "issues have been saved, and finish() did the right thing";
+    is -e 't/backup/issues/berrybrew/open/1022065182', 1, "issue correctly saved in open directory";
+    is -e 't/backup/issues/berrybrew/closed/979504175', 1, "issue correctly saved in closed directory";
 }
 
 done_testing();

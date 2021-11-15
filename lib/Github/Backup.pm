@@ -162,24 +162,44 @@ sub issues {
             last if $repo_count >= $self->limit;
         }
 
-        my $issue_list = $self->gh->issues->list(
+        my $closed_issue_list = $self->gh->issues->list(
             user => $self->user,
-            repo => $repo->{name}
+            repo => $repo->{name},
+            params => {
+                state => 'closed'
+            }
         );
+
+        my $open_issue_list = $self->gh->issues->list(
+            user => $self->user,
+            repo => $repo->{name},
+            params => {
+                state => 'open'
+            }
+        );
+
+        my $open_issues     = $open_issue_list->content;
+        my $closed_issues   = $closed_issue_list->content;
 
         my $issue_dir = $self->stg . "/issues/$repo->{name}";
 
         my $dir_created = 0;
 
-        while (my $issue = $issue_list->next){
+        for my $issue (@$open_issues, @$closed_issues) {
             if (! $dir_created) {
-                mkdir $issue_dir or die $!;
+                mkdir $issue_dir            or die $!;
+                mkdir "$issue_dir/open"     or die $!;
+                mkdir "$issue_dir/closed"   or die $!;
                 $dir_created = 1;
             }
-            open my $fh, '>', "$issue_dir/$issue->{id}"
-                or die "can't create the issue file";
 
-            print "Copied $repo->{name} issue #$issue->{number}\n";
+            my $issue_path = $issue->{state} eq 'open'
+                ? "$issue_dir/open/$issue->{id}"
+                : "$issue_dir/closed/$issue->{id}";
+
+            open my $fh, '>', $issue_path or die "can't create the issue file";
+
+            print "Copied $repo->{name} issue #$issue->{number} to $issue_path\n";
 
             print $fh encode_json $issue;
         }
