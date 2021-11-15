@@ -300,10 +300,13 @@ structure will be as follows:
     backup_dir/
         - issues/
             - repo1/
-                - issue_id_x
-                - issue_id_y
+                - open
+                    - issue_id_x
+                - closed
+                    - issue_id_y
             - repo2/
-                - issue_id_a
+                - open
+                    - issue_id_a
         - repo1/
             - repository data
         - repo2/
@@ -321,6 +324,7 @@ Note that either C<--repos> or C<--issues> must be sent in.
 =head2 -i | --issues
 
 Optional: Back up all of your issues across all of your Github repositories.
+This includes both open and closed issues.
 
 Note that either C<--issues> or C<--repos> must be sent in.
 
@@ -388,7 +392,19 @@ in the specified backup directory.
 =head2 issues
 
 Takes no parameters. Backs up all of your Github issues. Stores them per-repo
-within the C</backup_dir/issues> directory.
+within the C</backup_dir/issues> directory. Structure of the issues directory
+is as follows:
+
+    backup_dir/
+        - issues/
+            - repo/
+                - open/
+                    - issue_x
+                - closed/
+                    - issue_y
+            - repo2/
+                - open/
+                - closed/
 
 =head2 finish
 
