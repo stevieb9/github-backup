@@ -265,7 +265,7 @@ Github::Backup - Back up your Github repositories and/or issues locally
 
     export GITHUB_TOKEN=003e12e0780025889f8da286d89d144323c20c1ff7
 
-    github_backup -u stevieb9 -d ~/github_backup -r
+    github_backup -u stevieb9 -d ~/github_backup -r -i
 
 =head1 DESCRIPTION
 
@@ -319,14 +319,10 @@ format.
 
 Optional: Back up all of your repositories found on Github.
 
-Note that either C<--repos> or C<--issues> must be sent in.
-
 =head2 -i | --issues
 
 Optional: Back up all of your issues across all of your Github repositories.
 This includes both open and closed issues.
-
-Note that either C<--issues> or C<--repos> must be sent in.
 
 =head2 -p | --proxy
 
@@ -382,7 +378,7 @@ Default: Unlimited.
 Takes no parameters. Returns a list of all repository objects as returned from
 L<Pithub> / the Github API.
 
-Common fields are C<$repo->{name}>, C<$repo->{clone_url}> etc.
+Common fields are C<$repo-E<gt>{name}>, C<$repo-E<gt>{clone_url}> etc.
 
 =head2 repos
 
@@ -426,7 +422,7 @@ Steve Bertrand, C<< <steveb at cpan.org> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2017,2018 Steve Bertrand.
+Copyright 2017-2021 Steve Bertrand.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
