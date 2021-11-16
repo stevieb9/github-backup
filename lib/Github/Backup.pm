@@ -253,10 +253,10 @@ Github::Backup - Back up your Github repositories and/or issues locally
 
 =head1 SYNOPSIS
 
-    github_backup \
+    github-backup \
         --user stevieb9 \
         --token 003e12e0780025889f8da286d89d144323c20c1ff7 \
-        --dir /home/steve/github_backup \
+        --dir /home/steve/github-backup \
         --repos \
         --issues
 
@@ -265,7 +265,7 @@ Github::Backup - Back up your Github repositories and/or issues locally
 
     export GITHUB_TOKEN=003e12e0780025889f8da286d89d144323c20c1ff7
 
-    github_backup -u stevieb9 -d ~/github_backup -r -i
+    github-backup -u stevieb9 -d ~/github-backup -r -i
 
 =head1 DESCRIPTION
 

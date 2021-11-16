@@ -50,7 +50,7 @@ if (! $opts{repos} && ! $opts{issues} && ! $opts{list}){
 sub help {
     print <<EOF;
 
-Usage: github_backup -u username -t github_api_token -d /backup/directory -r -i
+Usage: github-backup -u username -t github_api_token -d /backup/directory -r -i
 
 Options:
 

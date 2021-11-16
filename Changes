@@ -3,6 +3,7 @@ Revision history for Github-Backup
 1.05 UNREL
     - Fix POD escape greater-than issues
     - Update copyright to 2021
+    - Replace all occurances of github_backup to github-backup
 
 1.04    2021-11-14
     - We now save open and closed tickets. Open are in backup/issues/repo/open
