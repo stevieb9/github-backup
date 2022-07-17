@@ -42,6 +42,12 @@ has proxy => (
 has user => (
     is => 'rw',
 );
+has org => (
+    is => 'rw',
+);
+has all => (
+    is => 'rw',
+);
 has limit => (
     is => 'rw',
 );
@@ -102,7 +108,12 @@ sub list {
     my ($self) = @_;
 
     if (! $self->{repo_list}) {
-        my $repo_list = $self->gh->repos->list(user => $self->user);
+        my %params = $self->all
+            ? ()
+            : $self->org
+            ? (org => $self->org)
+            : (user => $self->user); # GH API: only public repos for this user
+        my $repo_list = $self->gh->repos->list(%params);
         while (my $repo = $repo_list->next) {
             push @{ $self->{repo_list} }, $repo;
         }

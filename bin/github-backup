@@ -16,6 +16,8 @@ GetOptions(
     "l|list"    => \$opts{list},
     "r|repos"   => \$opts{repos},
     "i|issues"  => \$opts{issues},
+    "o|org=s"   => \$opts{org},
+    "a|all"     => \$opts{all},
     "v|verbose" => \$opts{verbose},
     "h|help"    => \$help,
 );
@@ -60,6 +62,8 @@ Options:
 -p | --proxy    Optional proxy (https://proxy.example.com:PORT)
 -r | --repos    Back up all of your repositories
 -i | --issues   Back up all of your issues
+-o | --org      Back up the repositories of this organisation
+-a | --all      Back up all repositories for the authenticated user
 -h | --help     Display this help page
 
 EOF
@@ -69,7 +73,9 @@ my $gh = Github::Backup->new(
     api_user    => $opts{user},
     token   => $opts{token},
     dir     => $opts{dir},
-    proxy   => $opts{proxy}
+    proxy   => $opts{proxy},
+    org     => $opts{org},
+    all     => $opts{all}
 );
 
 if ($opts{list}) {
