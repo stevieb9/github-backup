@@ -1,4 +1,5 @@
 bin/github-backup
+bin/github-backup-pass
 Changes
 examples/initial_test.pl
 lib/Github/Backup.pm
