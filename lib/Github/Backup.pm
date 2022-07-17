@@ -284,7 +284,11 @@ Mandatory: Your Github username.
 
 Mandatory: Your Github API token. If you wish to not include this on the
 command line, you can put the token into the C<GITHUB_TOKEN> environment
-variable.
+variable. Specifying the token in the C<GITHUB_TOKEN> environment variable also
+enables private repositories to be accessed, as github_backup will use the
+environment variable via the github_backup_pass command and git's
+C<GIT_ASKPASS> option to pass the required authentication information to git
+when cloning a repository.
 
 =head2 -l | --list
 
