@@ -78,7 +78,7 @@ EOF
 # command simply echos the GITHUB_TOKEN value, which can be used in place of a
 # password for authentication, thus allowing access to the private repos. This
 # option is ignored if it doesn't exist or returns nothing.
-$ENV{GIT_ASKPASS}="github_backup_pass"
+$ENV{GIT_ASKPASS}="github-backup-pass"
     if $ENV{GITHUB_TOKEN};
 
 my $gh = Github::Backup->new(
